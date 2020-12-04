@@ -1,4 +1,4 @@
-name: tests
+name: test-streamer
 
 on:
   pull_request
