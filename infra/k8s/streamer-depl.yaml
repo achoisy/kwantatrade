@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: streamer-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: streamer
+  template: 
+    metadata:
+      labels:
+        app: streamer
+    spec:
+      containers:
+        - name: streamer
+          image: achoisy/streamer
+          env:
+            - name: NATS_CLIENT_ID
+              valueFrom:
+                  fieldRef:
+                    fieldPath: metadata.name
+            - name: NATS_URL
+              value: "http://nats-srv:4222"
+            - name: NATS_CLUSTER_ID
+              value: trading
+            - name: EPIC
+              value: "IX.D.DAX.IFMM.IP"
+            - name: HOT_MONGO_URI
+              value: 'mongodb://hot-mongo-srv:27017/hot'
+            - name: COLD_MONGO_URI
+              value: 'mongodb://cold-mongo-srv:27017/cold'

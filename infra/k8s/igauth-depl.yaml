@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: igauth-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: igauth
+  template: 
+    metadata:
+      labels:
+        app: igauth
+    spec:
+      containers:
+        - name: igauth
+          image: achoisy/igauth
+          env:
+            - name: IG_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: ig-identifier
+                  key: IG_USERNAME
+            - name: IG_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: ig-password
+                  key: IG_PASSWORD
+            - name: IG_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ig-api-key
+                  key: IG_API_KEY
+            - name: IG_URL
+              value: "https://demo-api.ig.com/gateway/deal/session"
+            - name: NATS_CLIENT_ID
+              valueFrom:
+                  fieldRef:
+                    fieldPath: metadata.name
+            - name: NATS_URL
+              value: "http://nats-srv:4222"
+            - name: NATS_CLUSTER_ID
+              value: trading

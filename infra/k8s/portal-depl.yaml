@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: portal-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: portal
+  template: 
+    metadata:
+      labels:
+        app: portal
+    spec:
+      containers:
+        - name: portal
+          image: achoisy/portal
+          env:
+            - name: NATS_CLIENT_ID
+              valueFrom:
+                  fieldRef:
+                    fieldPath: metadata.name
+            - name: NATS_URL
+              value: "http://nats-srv:4222"
+            - name: NATS_CLUSTER_ID
+              value: trading
+            - name: MONGO_URI
+              value: 'mongodb://cold-mongo-srv:27017/cold'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: portal-srv
+spec:
+  selector:
+    app: portal
+  ports: 
+    - name: portal
+      protocol: TCP
+      port: 4000
+      targetPort: 4000
