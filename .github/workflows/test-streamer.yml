@@ -1,7 +1,9 @@
 name: test-streamer
 
 on:
-  pull_request
+  pull_request:
+    paths:
+      - 'streamer/**'
 
 jobs:
   build:
