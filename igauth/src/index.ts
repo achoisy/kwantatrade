@@ -5,6 +5,7 @@ import { natsWrapper } from '@quantatrading/common';
 import './env-check';
 
 const start = async () => {
+  console.log('Starting up IgCredential...');
   try {
     await natsWrapper.connect(
       process.env.NATS_CLUSTER_ID!,
@@ -27,8 +28,6 @@ const start = async () => {
     setInterval(() => {
       new IgCredential(natsWrapper.client).publish().catch((error) => {});
     }, 21600000); // 6h: 21600000
-
-    console.log('IgCredential has started !');
   } catch (error) {
     console.error(error);
   }
