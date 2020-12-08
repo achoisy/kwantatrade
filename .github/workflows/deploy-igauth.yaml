@@ -1,0 +1,22 @@
+name: deploy-igauth
+
+on:
+  push:
+    branches: 
+      - master
+    paths:
+      - 'igauth/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: cd igauth && docker build -t achoisy/igauth .
+      - run: docker login $SCW_NAMESPACE -u nologin -p $SCW_SECRET_TOKEN
+        env:
+          SCW_NAMESPACE: ${{ secrets.SCW_NAMESPACE }}
+          SCW_SECRET_TOKEN: ${{ secrets.SCW_SECRET_TOKEN }}
+      - run: docker tag achoisy/igauth $SCW_NAMESPACE/igauth && docker push $SCW_NAMESPACE/igauth
+        env:
+          SCW_NAMESPACE: ${{ secrets.SCW_NAMESPACE }}
