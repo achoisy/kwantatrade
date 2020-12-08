@@ -27,6 +27,8 @@ const start = async () => {
     setInterval(() => {
       new IgCredential(natsWrapper.client).publish().catch((error) => {});
     }, 21600000); // 6h: 21600000
+
+    console.log('IgCredential has started');
   } catch (error) {
     console.error(error);
   }
