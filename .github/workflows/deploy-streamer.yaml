@@ -1,0 +1,28 @@
+name: deploy-streamer
+
+on:
+  push:
+    branches: 
+      - master
+    paths:
+      - 'streamer/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: cd streamer && docker build -t achoisy/streamer .
+      - run: docker login $SCW_NAMESPACE -u nologin -p $SCW_SECRET_TOKEN
+        env:
+          SCW_NAMESPACE: ${{ secrets.SCW_NAMESPACE }}
+          SCW_SECRET_TOKEN: ${{ secrets.SCW_SECRET_TOKEN }}
+      - run: docker tag achoisy/streamer $SCW_NAMESPACE/streamer && docker push $SCW_NAMESPACE/streamer
+        env:
+          SCW_NAMESPACE: ${{ secrets.SCW_NAMESPACE }}
+      - name: Deploy image to Kapsule
+        uses: steebchen/kubectl@master
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+        with:
+          args: rollout restart deployment streamer-depl
