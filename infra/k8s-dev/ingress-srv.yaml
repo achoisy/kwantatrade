@@ -18,4 +18,3 @@ spec:
                 name: portal-srv
                 port: 
                   number: 4000
-
