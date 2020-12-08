@@ -20,6 +20,3 @@ jobs:
       - run: docker tag achoisy/igauth $SCW_NAMESPACE/igauth && docker push $SCW_NAMESPACE/igauth
         env:
           SCW_NAMESPACE: ${{ secrets.SCW_NAMESPACE }}
-      - run: docker push $SCW_NAMESPACE/igauth
-        env:
-          SCW_NAMESPACE: ${{ secrets.SCW_NAMESPACE }}
