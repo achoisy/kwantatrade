@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: streamer
-          image: achoisy/streamer
+          image: rg.fr-par.scw.cloud/kwantatrader/streamer
           env:
             - name: NATS_CLIENT_ID
               valueFrom:
@@ -30,3 +30,5 @@ spec:
               value: 'mongodb://hot-mongo-srv:27017/hot'
             - name: COLD_MONGO_URI
               value: 'mongodb://cold-mongo-srv:27017/cold'
+      imagePullSecrets:
+        - name: registry-secret

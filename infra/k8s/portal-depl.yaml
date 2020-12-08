@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: portal
-          image: achoisy/portal
+          image: rg.fr-par.scw.cloud/kwantatrader/portal
           env:
             - name: NATS_CLIENT_ID
               valueFrom:
@@ -26,6 +26,8 @@ spec:
               value: trading
             - name: MONGO_URI
               value: 'mongodb://cold-mongo-srv:27017/cold'
+      imagePullSecrets:
+        - name: registry-secret
 ---
 apiVersion: v1
 kind: Service

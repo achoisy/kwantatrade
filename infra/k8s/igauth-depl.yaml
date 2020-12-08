@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: igauth
-          image: achoisy/igauth
+          image: rg.fr-par.scw.cloud/kwantatrader/igauth
           env:
             - name: IG_USERNAME
               valueFrom:
@@ -41,4 +41,5 @@ spec:
               value: "http://nats-srv:4222"
             - name: NATS_CLUSTER_ID
               value: trading
-
+      imagePullSecrets:
+        - name: registry-secret
