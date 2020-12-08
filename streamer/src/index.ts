@@ -5,6 +5,7 @@ import { LightStream } from './services/tick-streamer';
 import './env-check';
 
 const start = async () => {
+  console.log('Starting up Streamer service...');
   try {
     // Connect to NATS Streamming Server
     await natsWrapper.connect(

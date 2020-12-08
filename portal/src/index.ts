@@ -10,6 +10,7 @@ import http from 'http';
 import './env-check';
 
 const start = async () => {
+  console.log('Starting up Portal service...');
   try {
     const httpServer = http.createServer();
     httpServer.listen(4000);
