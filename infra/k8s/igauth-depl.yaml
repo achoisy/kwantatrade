@@ -41,3 +41,4 @@ spec:
               value: "http://nats-srv:4222"
             - name: NATS_CLUSTER_ID
               value: trading
+
