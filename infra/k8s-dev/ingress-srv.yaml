@@ -11,7 +11,7 @@ spec:
     - host: quanta-trading.dev
       http:
         paths:
-          - path: /?(.*)
+          - path: /stream/?(.*)
             pathType: Prefix
             backend:
               service:
