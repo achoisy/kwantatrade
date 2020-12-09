@@ -11,7 +11,7 @@ spec:
     - host: kwantatrader.com
       http:
         paths:
-          - path: /stream/?(.*)
+          - path: /socket.io/?(.*)
             pathType: Prefix
             backend:
               service:
