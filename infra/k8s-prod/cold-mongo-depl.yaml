@@ -9,7 +9,7 @@ spec:
     requests:
       storage: 10Gi
 ---
-apiVersion: apps/v1
+apiVersion: v1
 kind: Pod
 metadata:
   name: cold-mongo-depl
