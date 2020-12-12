@@ -1,10 +1,24 @@
-FROM node:alpine
+FROM node:alpine AS node
 
+# Builder stage
+FROM node AS builder
 WORKDIR /app
-COPY package.json .
-RUN npm install --only=prod
-RUN npm install pm2 -g
-RUN npm run build
-COPY ./build .
 
-CMD ["pm2-runtime","index.js"]
+COPY package.json ./
+RUN npm install 
+COPY . .
+
+RUN npm run build
+
+# Final stage
+FROM node AS final
+
+RUN mkdir -p /app/build
+WORKDIR /app
+
+COPY package.json ./
+RUN npm install --only=prod
+
+COPY --from=builder /app/build ./build
+
+CMD ["pm2-runtime","./build/index.js"]
