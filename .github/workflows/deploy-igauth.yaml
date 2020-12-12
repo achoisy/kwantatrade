@@ -20,6 +20,9 @@ jobs:
       - run: docker tag achoisy/igauth $SCW_NAMESPACE/igauth && docker push $SCW_NAMESPACE/igauth
         env:
           SCW_NAMESPACE: ${{ secrets.SCW_NAMESPACE }}
-      - run: kubectl --kubeconfig=$KUBE_CONFIG_DATA rollout restart deployment igauth-depl
+      - name: Deploy image to Kapsule
+        uses: steebchen/kubectl@master
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+        with:
+          args: rollout restart deployment igauth-depl
