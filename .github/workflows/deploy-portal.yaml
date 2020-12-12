@@ -20,9 +20,6 @@ jobs:
       - run: docker tag achoisy/portal $SCW_NAMESPACE/portal && docker push $SCW_NAMESPACE/portal
         env:
           SCW_NAMESPACE: ${{ secrets.SCW_NAMESPACE }}
-      - name: Deploy image to Kapsule
-        uses: steebchen/kubectl@master
+      - run: kubectl --kubeconfig=$KUBE_CONFIG_DATA rollout restart deployment portal-depl
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
-        with:
-          args: rollout restart deployment portal-depl
