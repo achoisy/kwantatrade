@@ -3,6 +3,8 @@ FROM node:alpine
 WORKDIR /app
 COPY package.json .
 RUN npm install --only=prod
-COPY . .
+RUN npm install pm2 -g
+RUN npm run build
+COPY ./build .
 
-CMD ["npm", "start"]
+CMD ["pm2-runtime","index.js"]
