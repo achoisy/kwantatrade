@@ -1,2 +1,3 @@
 node_modules
-bbuild
+build
+__mocks__
