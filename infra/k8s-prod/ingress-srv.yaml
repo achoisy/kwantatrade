@@ -18,3 +18,10 @@ spec:
                 name: portal-srv
                 port: 
                   number: 4000
+          - path: /grafana/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: grafana.monitoring
+                port: 
+                  number: 3000
