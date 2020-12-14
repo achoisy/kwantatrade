@@ -21,6 +21,7 @@ RUN npm install --only=prod
 
 # Install pm2
 RUN npm install pm2 -g
+RUN pm2 install pm2-metrics
 
 COPY --from=builder /app/build ./build
 
