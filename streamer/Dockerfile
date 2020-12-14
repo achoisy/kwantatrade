@@ -17,6 +17,10 @@ RUN mkdir -p /app/build
 WORKDIR /app
 
 COPY package.json ./
+
+# Copy pm2 config file
+COPY pm2.config.yaml ./
+
 RUN npm install --only=prod
 
 # Install pm2
@@ -25,4 +29,4 @@ RUN pm2 install pm2-metrics
 
 COPY --from=builder /app/build ./build
 
-CMD ["pm2-runtime","./build/index.js"]
+CMD ["pm2-runtime","pm2.config.yaml"]
