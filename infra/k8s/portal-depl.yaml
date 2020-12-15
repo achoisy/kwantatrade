@@ -41,3 +41,7 @@ spec:
       protocol: TCP
       port: 4000
       targetPort: 4000
+    - name: monitoring
+      protocol: TCP
+      port: 9090
+      targetPort: 9090

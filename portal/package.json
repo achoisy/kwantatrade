@@ -21,7 +21,8 @@
   "license": "ISC",
   "dependencies": {
     "@quantatrading/common": "^1.0.17",
-    "socket.io": "^3.0.3"
+    "socket.io": "^3.0.3",
+    "socket.io-prometheus-metrics": "^1.0.6"
   },
   "devDependencies": {
     "@types/jest": "^26.0.16",

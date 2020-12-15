@@ -4,6 +4,7 @@ import { natsWrapper, mongoWrapper } from '@quantatrading/common';
 import { socketio } from './services/socketio-server';
 import { ChartTickListener } from './events/chart-tick-listener';
 import { StreamStatusListener } from './events/streamer-status-listener';
+import * as prometheus from 'socket.io-prometheus-metrics';
 import http from 'http';
 
 // Check for env before starting service
@@ -35,6 +36,11 @@ const start = async () => {
     await socketio.connect(httpServer).then(() => {
       socketio.listener();
       console.log('SocketIo connected');
+    });
+
+    // start prometheus-socketio-client metrics
+    prometheus.metrics(socketio.io, {
+      collectDefaultMetrics: true,
     });
 
     // Set CHART:TICK listener
