@@ -1,11 +1,10 @@
 // Create a uWebsocket server
 // Listen to Chart events and server them throught different channel
-import { natsWrapper, mongoWrapper } from '@quantatrading/common';
+import { natsWrapper, mongoWrapper, Prometheus } from '@quantatrading/common';
 import { socketio } from './services/socketio-server';
 import { ChartTickListener } from './events/chart-tick-listener';
 import { StreamStatusListener } from './events/streamer-status-listener';
 import http from 'http';
-import { Prometheus } from './services/prometheus-metrics';
 
 // Check for env before starting service
 import './env-check';

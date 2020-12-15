@@ -20,7 +20,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@quantatrading/common": "^1.0.17",
+    "@quantatrading/common": "^1.0.18",
     "prom-client": "^12.0.0",
     "socket.io": "^3.0.3"
   },
