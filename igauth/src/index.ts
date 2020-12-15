@@ -1,8 +1,11 @@
 // IGAuth is in charge of passing thru Ig crediential to other microservices
 // It emit a new Token on startup and every 6H after that
 import { IgCredential } from './services/ig-credential';
-import { natsWrapper } from '@quantatrading/common';
+import { natsWrapper, Prometheus } from '@quantatrading/common';
 import './env-check';
+
+// Set prometheus mettrics monitoring
+const prometheus = new Prometheus({ serviceName: 'igauth' });
 
 const start = async () => {
   console.log('Starting up IgCredential...');
@@ -16,6 +19,7 @@ const start = async () => {
     // Setup gracefull closing of NATS connection
     natsWrapper.client.on('close', () => {
       console.log('NATS connection closed !');
+      prometheus.close();
       process.exit();
     });
 

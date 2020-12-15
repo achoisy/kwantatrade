@@ -43,5 +43,5 @@ spec:
   ports: 
     - name: monitoring
       protocol: TCP
-      port: 9209
-      targetPort: 9209
+      port: 9090
+      targetPort: 9090

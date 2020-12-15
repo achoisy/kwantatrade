@@ -1,8 +1,11 @@
-import { natsWrapper, mongoWrapper } from '@quantatrading/common';
+import { natsWrapper, mongoWrapper, Prometheus } from '@quantatrading/common';
 import { LightStream } from './services/tick-streamer';
 
 // Check for env before starting service
 import './env-check';
+
+// Set prometheus mettrics monitoring
+const prometheus = new Prometheus({ serviceName: 'streamer' });
 
 const start = async () => {
   console.log('Starting up Streamer service...');
@@ -37,6 +40,7 @@ const start = async () => {
       await mongoWrapper.close();
       lightStream.disconnect();
       natsWrapper.client.close();
+      prometheus.close();
       setTimeout(process.exit(0), 2000);
     };
 

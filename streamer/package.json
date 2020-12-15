@@ -20,7 +20,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@quantatrading/common": "^1.0.17",
+    "@quantatrading/common": "^1.0.18",
     "lightstreamer-client-node": "^8.0.2"
   },
   "devDependencies": {

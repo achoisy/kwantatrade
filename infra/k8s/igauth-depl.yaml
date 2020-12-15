@@ -43,3 +43,16 @@ spec:
               value: trading
       imagePullSecrets:
         - name: registry-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: igauth-srv
+spec:
+  selector:
+    app: igauth
+  ports: 
+    - name: monitoring
+      protocol: TCP
+      port: 9090
+      targetPort: 9090
