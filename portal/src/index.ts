@@ -4,11 +4,14 @@ import { natsWrapper, mongoWrapper } from '@quantatrading/common';
 import { socketio } from './services/socketio-server';
 import { ChartTickListener } from './events/chart-tick-listener';
 import { StreamStatusListener } from './events/streamer-status-listener';
-import * as prometheus from 'socket.io-prometheus-metrics';
 import http from 'http';
+import { Prometheus } from './services/prometheus-metrics';
 
 // Check for env before starting service
 import './env-check';
+
+// Set prometheus mettrics monitoring
+const prometheus = new Prometheus({ serviceName: 'portal' });
 
 const start = async () => {
   console.log('Starting up Portal service...');
@@ -38,11 +41,6 @@ const start = async () => {
       console.log('SocketIo connected');
     });
 
-    // start prometheus-socketio-client metrics
-    prometheus.metrics(socketio.io, {
-      collectDefaultMetrics: true,
-    });
-
     // Set CHART:TICK listener
     new ChartTickListener(natsWrapper.client).listen();
 
@@ -56,6 +54,7 @@ const start = async () => {
       natsWrapper.client.close();
       socketio.disconnect();
       httpServer.close();
+      prometheus.close();
       setTimeout(process.exit(0), 2000);
     };
 
