@@ -27,7 +27,7 @@ class Socketio {
     return this._io;
   }
 
-  ChartModel(epic: Epics): Model<ChartDoc, {}> {
+  ChartModel(epic: Epics): Model<ChartDoc> {
     return mongoWrapper.coldMongo.model<ChartDoc>('Chart', chartSchema, epic);
   }
 
