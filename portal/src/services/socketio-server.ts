@@ -18,6 +18,7 @@ import http from 'http';
 
 class Socketio {
   private _io?: Server;
+  statusHistoric: StreamStatusEvent['data'][] = [];
 
   get io() {
     if (!this._io) {
@@ -31,7 +32,13 @@ class Socketio {
   }
 
   pubStatus(data: StreamStatusEvent['data']) {
-    this.io.emit(Subjects.StreamStatus, data);
+    this.io.to(data.epic).emit(Subjects.StreamStatus, data);
+    const indexOfEpic = this.statusHistoric.findIndex(
+      (status) => status.epic === data.epic
+    );
+    indexOfEpic >= 0
+      ? (this.statusHistoric[indexOfEpic] = data)
+      : this.statusHistoric.push(data);
   }
 
   pubChartTick(data: ChartTickEvent['data']) {
@@ -41,16 +48,27 @@ class Socketio {
   listener() {
     this.io.on('connection', (socket: Socket) => {
       // Join epic chart stream
-      socket.on(EventNames.joinChart, ({ epic }: JoinChartEvent['data']) => {
-        console.log(`User ${socket.id} join ${epic} room`);
-        socket.join(epic);
-      });
+      socket.on(
+        EventNames.joinChart,
+        ({ epic }: JoinChartEvent['data'], cb) => {
+          console.log(`User ${socket.id} join ${epic} room`);
+          socket.join(epic);
+          cb(
+            socket.rooms,
+            this.statusHistoric.find((status) => status.epic === epic)
+          );
+        }
+      );
 
       // Leave epic chart stream
-      socket.on(EventNames.leaveChart, ({ epic }: LeaveChartEvent['data']) => {
-        console.log(`User ${socket.id} leave ${epic} room`);
-        socket.leave(epic);
-      });
+      socket.on(
+        EventNames.leaveChart,
+        ({ epic }: LeaveChartEvent['data'], cb) => {
+          console.log(`User ${socket.id} leave ${epic} room`);
+          socket.leave(epic);
+          cb(socket.rooms);
+        }
+      );
 
       // Lsten for historical data request
       socket.on(
