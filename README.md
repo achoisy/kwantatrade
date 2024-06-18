@@ -1,5 +1,13 @@
 # kwantatrade
 
+CFD Tick Data Acquisition Service from IG Broker
+
+> Microservices Architecture. 
+> NATS Streaming Server. 
+> Two NoSQL MongoDB databases (Hot and Cold). 
+> System resource optimization.
+
+
 Service d’acquisition de données indices ticks CFD du Broker IG 
 
 > Architecture en Microservices. 
